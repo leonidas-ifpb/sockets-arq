@@ -23,5 +23,6 @@ while True:
     while True:
         dados = sock.recv(TAM_MSG)
         if not dados: break
-        arq.write(dados)	
+        arq.write(dados)
+    arq.close()	
     sock.close()

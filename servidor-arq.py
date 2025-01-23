@@ -23,5 +23,6 @@ while True:
             dados = arq.read(TAM_MSG)
             if not dados: break
             con.send(dados)
+        arq.close()
     con.close()
 sock.close()
