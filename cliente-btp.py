@@ -16,7 +16,7 @@ def decode_cmd_usr(cmd_usr):
     tokens = cmd_usr.split()
     if tokens[0].lower() in cmd_map:
         tokens[0] = cmd_map[tokens[0].lower()]
-        return " ".join(tokens)
+        return " ".join(tokens)+'\n'
     else:
         return False
 
@@ -39,7 +39,7 @@ while True:
         sock.send(str.encode(cmd))
         dados = sock.recv(TAM_MSG)
         if not dados: break
-        msg_status = dados.decode().split('\n')[0]
+        msg_status = dados.decode().split('\n')[0].split()
         dados = dados[len(msg_status)+1:]
         print(msg_status)
         cmd = cmd.split()
@@ -60,15 +60,16 @@ while True:
                 if not dados: break
                 dados = residual + dados.decode()
         elif cmd[0] == 'GET':
-            nome_arq = " ".join(cmd[1:])
-            print('Recebendo:', nome_arq)
-            arq = open(nome_arq, "wb")
-            tam_arquivo = int(msg_status.split()[1])
-            while True:
-                arq.write(dados)
-                tam_arquivo -= len(dados)
-                if tam_arquivo == 0: break
-                dados = sock.recv(TAM_MSG)
-                if not dados: break
-            arq.close()
+            if msg_status[0] == '+OK':
+                nome_arq = " ".join(cmd[1:])
+                print('Recebendo:', nome_arq)
+                arq = open(nome_arq, "wb")
+                tam_arquivo = int(msg_status[1])
+                while True:
+                    arq.write(dados)
+                    tam_arquivo -= len(dados)
+                    if tam_arquivo == 0: break
+                    dados = sock.recv(TAM_MSG)
+                    if not dados: break
+                arq.close()
 sock.close()
