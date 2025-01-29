@@ -39,9 +39,10 @@ while True:
         sock.send(str.encode(cmd))
         dados = sock.recv(TAM_MSG)
         if not dados: break
-        msg_status = dados.decode().split('\n')[0].split()
+        msg_status = dados.decode().split('\n')[0]
         dados = dados[len(msg_status)+1:]
         print(msg_status)
+        msg_status = msg_status.split()
         cmd = cmd.split()
         cmd[0] = cmd[0].upper()
         if cmd[0] == 'QUIT':
