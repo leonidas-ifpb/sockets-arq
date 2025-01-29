@@ -21,6 +21,7 @@ def processa_msg_cliente(msg, con, cliente):
                 dados = arq.read(TAM_MSG)
                 if not dados: break
                 con.send(dados)
+            arq.close()
         except Exception as e:
             con.send(str.encode('-ERR {}\n'.format(e)))
     elif msg[0].upper() == 'LIST':
