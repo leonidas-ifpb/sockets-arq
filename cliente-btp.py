@@ -47,7 +47,7 @@ while True:
         if cmd[0] == 'QUIT':
             break
         elif cmd[0] == 'LIST':
-            num_arquivos = int(msg_status.split()[1])
+            num_arquivos = int(msg_status[1])
             dados = dados.decode()
             while True:
                 arquivos = dados.split('\n')
